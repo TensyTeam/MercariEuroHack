@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="/static/jquery.min.js"></script>
+
+	<title>{% if title %}{{title}} &mdash; {% endif %}Tensegrity</title>
+	<link rel="shortcut icon" type="images/png" href="/static/favicon.png">
+
+	<meta name="author" content="Poloz Alexey (polozhev@mail.ru)">
+	<meta name="description" content="{% if description %}{{ description }}{% else %}Educational ecosystem based on blended learning and flexible crypto economy.{% endif %}">
+	<meta name="keywords" content="{% if tags %}{% for i in tags %}{{ i }},{% endfor %}{% else %}blended learning system,education platform,tokens,blockchain{% endif %}">
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container">
+			<a class="navbar-brand" href="#"><img src="/static/logo.svg" style="height: 25px;"></a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+					<li class="nav-item active">
+						<a class="nav-link" href="#">Main</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Other</a>
+					</li>
+				</ul>
+				<form class="form-inline my-2 my-lg-0">
+					<input class="form-control mr-sm-2" type="search" placeholder="Search">
+					<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+				</form>
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+
+{% block cont %}{% endblock %}
+
+	</div>
+</body>
+</html>
