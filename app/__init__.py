@@ -1,6 +1,24 @@
 from flask import Flask
 
+import os
+import re
+
+
 app = Flask(__name__)
 app.config.from_object('config')
 
-from app import index
+
+LINK = 'http://0.0.0.0:80/'
+
+def get_preview(url, num=0):
+	url = '/static/load/' + url + '/'
+	for i in os.listdir('app' + url):
+		if re.search(r'^' + str(num) + '\.', i):
+			return url + i
+	return url + '0.png'
+
+
+from app import api
+
+from app import learn
+# from app import teach

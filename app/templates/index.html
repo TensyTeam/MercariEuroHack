@@ -1,6 +1,8 @@
 {% extends "main.html" %}
 {% block cont %}
 
+
+
 <script type="text/javascript">
 
 window.addEventListener('load',
@@ -39,64 +41,6 @@ function startApp() {
 		console.log(res);
 	});
 }
-
-// function startApp() {
-// 	var ABI = [{"constant":false,"inputs":[],"name":"kill","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"greet","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_greeting","type":"string"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"}];
-// 	var contract = "0xefeB77057B7DA008afC54eeD0B9714CdEcC8CDDd";
-
-// 	token = web3.eth.contract(ABI).at(contract);
-
-// 	var accountInterval = setInterval(function() {
-// 		if (web3.eth.accounts[0] !== account) {
-// 			account = web3.eth.accounts[0];
-// 			$('#message').append('<div>' + account + '</div');
-// 		}
-// 	}, 100);
-
-// 	// Fetch data from the blockchain
-// 	// 1. get the total supply
-// 	token.totalSupply.call(function(err, totalSupply) {
-// 		// 2. get the number of decimal places used to represent this token
-// 		token.decimals.call(function(err, decimals) {
-// 			// 3. get the name of the token
-// 			token.name.call(function(err, name) {
-// 				// 4. get the balance of the account holder
-// 				token.balanceOf.call(account,
-// 				function(err, balance) {
-// 					// Update the UI to reflect the data returned from the blockchain
-// 					var percentOwned = balance.div(totalSupply).mul(100);
-// 					var _divisor = new web3.BigNumber(10).toPower(decimals);
-// 					divisor = _divisor;
-// 					totalSupply = totalSupply.div(divisor);
-// 					balance = balance.div(divisor);
-// 					var results = 'Token Name: ' + name + '';
-// 					results += 'Total supply: ' + totalSupply.round(5) + '';
-// 					results += 'You own ' + balance.round(5) + ' which is ' + percentOwned.round(5) + '% of the total supply';
-
-// 					$('#message').apend('<div>' + results + '</div>');
-// 				});
-// 			});
-// 		});
-// 	});
-// }
-
-// $("#Transfer").submit(function(event) {
-// 	event.preventDefault();
-// 	$("#message").empty();
-// 	var _sendTo = $('#SendTo').val();
-// 	var _amount = $('#Amount').val();
-
-// 	$("#message").append('<div>Sending IdeaCoin to' + sendTo + '. This may take a while...</div>');
-// 	return Token.transfer(sendTo, _amount).send({
-// 		from: account,
-// 	}).on("receipt",
-// 		function(receipt) {
-// 			$("#message").append('<div>Successfully Transfered' + _amount + ' IdeaCoin to: ' + _sendTo + '!</div>');
-// 		}).on("error",
-// 		function(error) {
-// 			$("#message").append('<div>' + error + '</div>');
-// 	});
-// });
 
 </script>
 

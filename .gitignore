@@ -2,4 +2,5 @@
 
 flask/
 
-params.py
+config.py
+app/static/load/
