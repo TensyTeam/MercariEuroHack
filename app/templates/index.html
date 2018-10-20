@@ -3,30 +3,30 @@
 
 <script type="text/javascript">
 
+var ABI = [{"constant":false,"inputs":[{"name":"is_ok","type":"bool"},{"name":"teacher","type":"address"}],"name":"student_end_lesson","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[],"name":"withdraw_expired","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"moderator","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"courses","outputs":[{"name":"student","type":"address"},{"name":"author","type":"address"},{"name":"blocked","type":"bool"},{"name":"price","type":"uint256"},{"name":"duration","type":"uint256"},{"name":"start","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"withdraw","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"teacher","type":"address"},{"name":"teacher_is_right","type":"bool"},{"name":"i","type":"uint256"}],"name":"resolve_dispute","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"price","type":"uint256"},{"name":"student","type":"address"},{"name":"author","type":"address"},{"name":"duration","type":"uint256"}],"name":"teacher_ready_to_give_lesson","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"},{"name":"","type":"uint256"}],"name":"disputes","outputs":[{"name":"student","type":"address"},{"name":"author","type":"address"},{"name":"price","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"withdrawals","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"teacher","type":"address"}],"name":"student_start_lesson","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"teacher","type":"address"},{"indexed":true,"name":"end_time","type":"uint256"}],"name":"LessonStarted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"teacher","type":"address"},{"indexed":false,"name":"index","type":"uint256"}],"name":"DisputeMade","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"teacher","type":"address"},{"indexed":true,"name":"student","type":"address"},{"indexed":false,"name":"price","type":"uint256"},{"indexed":false,"name":"teacher_is_right","type":"bool"}],"name":"DisputeResolved","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"teacher","type":"address"}],"name":"LessonPrepared","type":"event"}];
+var contract = "0x1147099a085071aa34B0a44ee58BF3c989e5a072";
+
+
 window.addEventListener('load',
 	function() {
-	 	console.log('!');
 		web3 = window.web3;
-		console.log(web3);
+		// console.log(web3);
 
 		if (typeof web3 !== 'undefined') {
 			web3 = new Web3(web3.currentProvider);
 			window.web3 = new Web3(web3.currentProvider);
 
-			console.log(web3.currentProvider);
+			// console.log(web3.currentProvider);
 
 			if (web3.currentProvider.isMetaMask === true) {
-				startApp();
+				teacher_ready_to_give_lesson();
 			} else {
 				$('#message').append('<div>No web3? Please use google chrome and metamask plugin to enter this Dapp!</div>');
 			}
 	}
 });
 
-function startApp() {
-	var ABI = [{"constant":false,"inputs":[],"name":"kill","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"user","type":"address"},{"name":"price","type":"uint256"}],"name":"greet","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_greeting","type":"string"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"user","type":"address"},{"indexed":false,"name":"price","type":"uint256"}],"name":"one","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"user","type":"address"}],"name":"Actions","type":"event"}];
-	var contract = "0xce4bf8039CCf5DD8567782d66f4C2Fc7275481fE";
-
+function teacher_ready_to_give_lesson() {
 	token = web3.eth.contract(ABI).at(contract);
 	console.log(token);
 
@@ -34,86 +34,30 @@ function startApp() {
 	// $('#message').append('<div>' + account + '</div');
 	console.log(account);
 
-	// console.log(token.greet());
-	token.greet.call(`0xa955110eee9E85D9f50D367f5486EA12Fb1b9981`, 100000, function (err, res) { 
+	// 0xa82EC4C9bbC297dB87C1e11269D71E54806b184E
+	token.teacher_ready_to_give_lesson.sendTransaction(100000000000000000, `0x303220109baDA10a87A92Ef95cD229506561bbFD`, `0x4F069d2fe6D6B2257F486B0f5cb3013014BD48c7`, 200, function (err, res) { 
 		console.log(res);
 	});
+}
 
-	token.greet.sendTransaction(`0xa955110eee9E85D9f50D367f5486EA12Fb1b9981`, 100000, function (err, res) { 
+function student_start_lesson() {
+	token = web3.eth.contract(ABI).at(contract);
+	account = web3.eth.accounts[0];
+
+	console.log(account);
+
+	token.student_start_lesson.sendTransaction(`0xa82EC4C9bbC297dB87C1e11269D71E54806b184E`, {from: account, gas: 3000000, value: 100000000000000000}, function (err, res) { 
 		console.log(res);
 	});
+}
 
-	// 	var myContract = new web3.eth.Contract(ABI, contract, {
-	//     from: '0x4F069d2fe6D6B2257F486B0f5cb3013014BD48c7', // default from address
-	//     gasPrice: '20000000000' // default gas price in wei, 20 gwei in this case
-	// });
+function student_end_lesson() {
+	token = web3.eth.contract(ABI).at(contract);
+	account = web3.eth.accounts[0];
 
-	// 	myContract.methods.greet(`0xa955110eee9E85D9f50D367f5486EA12Fb1b9981`, 100000).send({from: '0x4F069d2fe6D6B2257F486B0f5cb3013014BD48c7'})
-	// .on('transactionHash', function(hash){
-	//    console.log(hash);
-	// })
-	// .on('confirmation', function(confirmationNumber, receipt){
-	//     console.log(receipt);
-	// })
-	// .on('receipt', function(receipt){
-	//     console.log(receipt);
-	// })
-	// .on('error', console.error);
-
-
-
-	// //
-	// const solc = require("solc");
-	// const Tx = require('ethereumjs-tx')
-
-
- //    var account1 = "0x4F069d2fe6D6B2257F486B0f5cb3013014BD48c7";
- //    var key1 = new Buffer('E43003204B9414E09CEE77CB627EB14725B6510988189608E036C6BB582DABEF', 'hex')
-
- //    var bytecode = "0x60806040526004361061004b5763ffffffff7c010000000000000000000000000000000000000000000000000000000060003504166341c0e1b5811461005057806355f8135114610067575b600080fd5b34801561005c57600080fd5b5061006561010d565b005b34801561007357600080fd5b5061009873ffffffffffffffffffffffffffffffffffffffff6004351660243561014a565b6040805160208082528351818301528351919283929083019185019080838360005b838110156100d25781810151838201526020016100ba565b50505050905090810190601f1680156100ff5780820380516001836020036101000a031916815260200191505b509250505060405180910390f35b60005473ffffffffffffffffffffffffffffffffffffffff163314156101485760005473ffffffffffffffffffffffffffffffffffffffff16ff5b565b60408051828152905160609173ffffffffffffffffffffffffffffffffffffffff8516917fba242c6b03bfd29ab542a103e046cd0b50af142a778cebdb97e668332a7ae4e99181900360200190a260018054604080516020600284861615610100026000190190941693909304601f8101849004840282018401909252818152929183018282801561021d5780601f106101f25761010080835404028352916020019161021d565b820191906000526020600020905b81548152906001019060200180831161020057829003601f168201915b50505050509050929150505600a165627a7a723058204a0fe58083d5127addce37980b4b19d5c1576de234e6af27a734b93875e4c4d40029";
-
-	// const gasPrice = web3.eth.gasPrice;
-	// const gasPriceHex = web3.toHex(gasPrice);
-	// const gasLimitHex = web3.toHex(3000000);
-
-	// var nonceval = '0x' + new Date().getTime();
-
-	// var fTx = {
-	//     nonce: nonceval,
-	//     gasPrice: gasPriceHex,
-	//     gasLimit: gasLimitHex,
-	//     data: bytecode,
-	//     from: account1
-	// };
-
-	// var txx = new Tx(fTx);
-	// txx.sign(key1);
-
-	// var sTx = txx.serialize();
-
-
-	// web3.eth.sendRawTransaction('0x' + sTx.toString('hex'), (err, hash) => {
-	//     if (err) { console.log(err); return; }
-
-	//     // Log the tx, you can explore status manually with eth.getTransaction()
-	//     console.log('contract creation tx: ' + hash);
-	// });
-
-
-
-
-	web3.eth.filter({
-		fromBlock: 0,
-		toBlock: 'latest',
-		address: contract
-	}).get(function (err, result) {
-		console.log(result);
-	})
-
-	// filter.watch((error, result) => {
-	// 	console.log('!!!');
-	// 	console.log(result);
-	// });
+	token.student_end_lesson.sendTransaction(true, `0xa82EC4C9bbC297dB87C1e11269D71E54806b184E`, function (err, res) { 
+		console.log(res);
+	});
 }
 
 </script>
