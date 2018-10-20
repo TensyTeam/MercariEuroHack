@@ -1,6 +1,103 @@
 {% extends "main.html" %}
 {% block cont %}
 
-Hello!
+<script type="text/javascript">
+
+window.addEventListener('load',
+	function() {
+	 	console.log('!');
+		web3 = window.web3;
+		console.log(web3);
+
+		if (typeof web3 !== 'undefined') {
+			web3 = new Web3(web3.currentProvider);
+			window.web3 = new Web3(web3.currentProvider);
+
+			console.log(web3.currentProvider);
+
+			if (web3.currentProvider.isMetaMask === true) {
+				startApp();
+			} else {
+				$('#message').append('<div>No web3? Please use google chrome and metamask plugin to enter this Dapp!</div>');
+			}
+	}
+});
+
+function startApp() {
+	var ABI = [{"constant":false,"inputs":[],"name":"kill","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"greet","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_greeting","type":"string"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"}];
+	var contract = "0x13ed8a1B1A811e38C4C08253427726451901E662"; // "0xefeB77057B7DA008afC54eeD0B9714CdEcC8CDDd";
+
+	token = web3.eth.contract(ABI).at(contract);
+	console.log(token);
+
+	account = web3.eth.accounts[0];
+	// $('#message').append('<div>' + account + '</div');
+	console.log(account);
+
+	// console.log(token.greet());
+	token.greet.call(function (err, res) { 
+		console.log(res);
+	});
+}
+
+// function startApp() {
+// 	var ABI = [{"constant":false,"inputs":[],"name":"kill","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"greet","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"_greeting","type":"string"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"}];
+// 	var contract = "0xefeB77057B7DA008afC54eeD0B9714CdEcC8CDDd";
+
+// 	token = web3.eth.contract(ABI).at(contract);
+
+// 	var accountInterval = setInterval(function() {
+// 		if (web3.eth.accounts[0] !== account) {
+// 			account = web3.eth.accounts[0];
+// 			$('#message').append('<div>' + account + '</div');
+// 		}
+// 	}, 100);
+
+// 	// Fetch data from the blockchain
+// 	// 1. get the total supply
+// 	token.totalSupply.call(function(err, totalSupply) {
+// 		// 2. get the number of decimal places used to represent this token
+// 		token.decimals.call(function(err, decimals) {
+// 			// 3. get the name of the token
+// 			token.name.call(function(err, name) {
+// 				// 4. get the balance of the account holder
+// 				token.balanceOf.call(account,
+// 				function(err, balance) {
+// 					// Update the UI to reflect the data returned from the blockchain
+// 					var percentOwned = balance.div(totalSupply).mul(100);
+// 					var _divisor = new web3.BigNumber(10).toPower(decimals);
+// 					divisor = _divisor;
+// 					totalSupply = totalSupply.div(divisor);
+// 					balance = balance.div(divisor);
+// 					var results = 'Token Name: ' + name + '';
+// 					results += 'Total supply: ' + totalSupply.round(5) + '';
+// 					results += 'You own ' + balance.round(5) + ' which is ' + percentOwned.round(5) + '% of the total supply';
+
+// 					$('#message').apend('<div>' + results + '</div>');
+// 				});
+// 			});
+// 		});
+// 	});
+// }
+
+// $("#Transfer").submit(function(event) {
+// 	event.preventDefault();
+// 	$("#message").empty();
+// 	var _sendTo = $('#SendTo').val();
+// 	var _amount = $('#Amount').val();
+
+// 	$("#message").append('<div>Sending IdeaCoin to' + sendTo + '. This may take a while...</div>');
+// 	return Token.transfer(sendTo, _amount).send({
+// 		from: account,
+// 	}).on("receipt",
+// 		function(receipt) {
+// 			$("#message").append('<div>Successfully Transfered' + _amount + ' IdeaCoin to: ' + _sendTo + '!</div>');
+// 		}).on("error",
+// 		function(error) {
+// 			$("#message").append('<div>' + error + '</div>');
+// 	});
+// });
+
+</script>
 
 {% endblock %}

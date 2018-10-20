@@ -12,10 +12,12 @@
 	<meta name="description" content="{% if description %}{{ description }}{% else %}Educational ecosystem based on blended learning and flexible crypto economy.{% endif %}">
 	<meta name="keywords" content="{% if tags %}{% for i in tags %}{{ i }},{% endfor %}{% else %}blended learning system,education platform,tokens,blockchain{% endif %}">
 
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="/static/bootstrap.min.css">
+	<script src="/static/jquery.min.js"></script>
+	<script src="/static/popper.min.js"></script>
+	<script src="/static/bootstrap.min.js"></script>
+
+	<script src="/static/web3.min.js"></script>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -27,7 +29,7 @@
 
 			<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-					<li class="nav-item active">
+					<li class="nav-item{% if url == 'index' %} active{% endif %}">
 						<a class="nav-link" href="#">Main</a>
 					</li>
 					<li class="nav-item">
@@ -46,5 +48,6 @@
 {% block cont %}{% endblock %}
 
 	</div>
+	<div id="message"></div>
 </body>
 </html>
