@@ -9,7 +9,7 @@ import requests
 @app.route('/index/')
 @app.route('/learn')
 @app.route('/learn/')
-def index():
+def learn():
 	ladders = json.loads(requests.post(LINK, json={'method': 'ladders.gets'}).text)
 
 	if ladders['error']:

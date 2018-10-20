@@ -1,13 +1,12 @@
 from flask import render_template
 from app import app
 
-@app.route('/', methods=['GET'])
-@app.route('/index')
-@app.route('/index/')
+@app.route('/test')
+@app.route('/test/')
 def index():
 	return render_template('index.html',
-		title = 'Main',
+		title = 'Test',
 		description = '',
-		tags = ['main page', 'tensegrity', 'tensy'],
-		url = 'index',
+		tags = ['test', 'tensegrity', 'tensy'],
+		url = 'test',
 	)
