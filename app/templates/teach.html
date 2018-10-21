@@ -1,0 +1,36 @@
+{% extends "main.html" %}
+{% block cont %}
+
+<h1>Teach</h1>
+<div class="cont"></div>
+
+<script type="text/javascript" charset="utf-8">
+
+// Обновление списка учителей
+
+var socket = io.connect('{{ LINK }}teach');
+
+$(document).ready(function() {
+	window.setInterval(function() {
+		socket.emit('wait', {id: account});
+	}, 5);
+
+	socket.on('request', function(mes) {
+		if (mes['teacher'] == account) {
+			$('.cont').html('<button onclick="accept(' + mes['student'] + ')" type="button" class="btn btn-outline-success">Accept</button><button onclick="cancel(' + mes['student'] + ')" type="button" class="btn btn-outline-danger">Cancel</button>')
+		}
+	});
+});
+
+function accept(student) {
+	teacher_ready_to_give_lesson(100000000000000000, student, `0x4F069d2fe6D6B2257F486B0f5cb3013014BD48c7`, 200);
+	socket.emit('accept', {teacher: account, student: student});
+}
+
+function cancel(student) {
+	socket.emit('cancel', {teacher: account, student: student});
+}
+
+</script>
+
+{% endblock %}

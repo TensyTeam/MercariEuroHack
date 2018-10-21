@@ -6,8 +6,17 @@
 	margin-bottom: 2px;
 }
 
-#message, .footer-classic, .footer-classic a {
+#message {
 	color: rgba(255, 255, 255, .5);
+}
+
+.footer-classic {
+	/*border-bottom: 1px solid #343a40;*/
+	background-color: rgba(255, 255, 255, .5);
+}
+
+.footer-classic, .footer-classic a {
+	color: #343a40;
 }
 
 .footer-classic {
@@ -59,5 +68,5 @@ h3 .badge {
 }
 
 button {
-	margin: 25px 0 25px 0;
+	margin: 25px 10px 25px 10px;
 }

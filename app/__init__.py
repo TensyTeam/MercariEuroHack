@@ -21,9 +21,10 @@ def get_preview(url, num=0):
 from app import api
 
 from app import learn
-# from app import teach
+from app import teach
 from app import ladder
 from app import step
+from app import study
 
 from app import sys_step_check
 

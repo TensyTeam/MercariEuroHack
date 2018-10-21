@@ -1,0 +1,43 @@
+{% extends "main.html" %}
+{% block cont %}
+
+<h1>Study</h1>
+<div class="cont"></div>
+
+<script type="text/javascript" charset="utf-8">
+
+// Обновление списка учителей
+
+var socket = io.connect('{{ LINK }}study');
+
+$(document).ready(function() {
+	socket.emit('start', {id: account});
+
+	socket.on('all', function(mes) {
+		$('.cont').html('');
+
+		for (var i=0; i<mes['teachers'].length; i++) {
+			cont = '<button onclick="request(\'' + mes['teachers'][i] + '\')" type="button" class="btn btn-outline-success" id="' + mes['teachers'][i] + '">' + mes['teachers'][i] + '</button></a>';
+			$('.cont').append(cont);
+		}
+	});
+
+	socket.on('accept', function(teacher) {
+		// delay
+		student_start_lesson(teacher, 100000000000000000);
+		window.location.href = '/space';
+	});
+
+	socket.on('cancel', function(teacher) {
+		$('#' + teacher).detach();
+	});
+});
+
+function request(teacher) {
+	socket.emit('request', {student: account, teacher: teacher});
+	$('#' + teacher).attr('class', 'btn btn-outline-warning');
+}
+
+</script>
+
+{% endblock %}

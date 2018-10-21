@@ -4,6 +4,17 @@ from app import app
 from mongodb import *
 
 from json import dumps
+from time import time, sleep
+
+# Socket.IO
+from threading import Lock
+from flask_socketio import SocketIO, emit
+
+async_mode = None
+socketio = SocketIO(app, async_mode=async_mode)
+
+thread = None
+thread_lock = Lock()
 
 
 def errors(x, filters):
@@ -34,6 +45,8 @@ def process():
 	for i in x:
 		if type(x[i]) == str:
 			x[i] = x[i].strip()
+
+	timestamp = time()
 
 	try:
 # Список ледеров
@@ -147,6 +160,55 @@ def process():
 
 			return dumps({'error': 0, 'correct': suc, 'step': step_next if suc else x['step']})
 
+# # Список учителей
+# 		elif x['method'] == 'study.gets':
+# 			mes = errors(x, (
+# 				('id', True, str),
+# 			))
+# 			if mes: return mes
+
+# 			# Удалить предыдущие сеансы
+# 			users = db['teachers'].find_one({'user': x['id']})
+
+# 			if users:
+# 				socketio.emit('remove', {
+# 					'user': x['id'],
+# 				}, namespace='/study')
+
+# 				db['teachers'].remove(users['_id'])
+
+# 			teachers = db['teachers'].find({}, {'_id': False})
+
+# 			return dumps({'error': 0, 'teachers': teachers})
+
+# # Начало обучения
+# 		elif x['method'] == 'teach.start':
+# 			mes = errors(x, (
+# 				('id', True, str),
+# 			))
+# 			if mes: return mes
+
+# 			filter_db = {'_id': False, 'id': True, 'steps.id': True}
+# 			ladder_list = db['ladders'].find({}, filter_db)
+
+# 			users = db['teachers'].find_one({'user': x['id']})
+
+# 			if users:
+# 				users['time'] = timestamp
+# 				db['teachers'].save(users)
+
+# 			else:
+# 				socketio.emit('add', {
+# 					'user': x['id'],
+# 				}, namespace='/study')
+
+# 				db['teachers'].insert_one({
+# 					'user': x['id'],
+# 					'time': timestamp,
+# 				})
+
+# 			return dumps({'error': 0})
+
 		else:
 			return dumps({'error': 2, 'message': 'Wrong method'})
 
@@ -154,3 +216,54 @@ def process():
 	except Exception as e:
 		print(e)
 		return dumps({'error': 1, 'message': 'Server error'})
+
+
+@socketio.on('wait', namespace='/teach')
+def wait_teach(mes):
+	teacher = db['teachers'].find_one({'user': mes['id']})
+
+	if teacher:
+		teacher['time'] = time()
+		db['teachers'].save(teacher)
+	else:
+		db['teachers'].insert_one({
+			'user': mes['id'],
+			'time': time(),
+		})
+
+@socketio.on('start', namespace='/study')
+def search_teacher(mes):
+	global thread
+	with thread_lock:
+		if thread is None:
+			thread = socketio.start_background_task(target=background_thread)
+
+	teacher = db['teachers'].find_one({'user': mes['id']})
+
+	if teacher:
+		db['teachers'].remove(teacher['_id'])
+
+@socketio.on('request', namespace='/study')
+def request_teacher(mes):
+	socketio.emit('request', mes, namespace='/teach')
+
+@socketio.on('accept', namespace='/teach')
+def request_teacher(mes):
+	socketio.emit('accept', mes, namespace='/study')
+
+@socketio.on('cancel', namespace='/teach')
+def request_teacher(mes):
+	socketio.emit('cancel', mes, namespace='/study')
+
+def background_thread():
+	while True:
+		for i in db['teachers'].find({'time': {'$lt': time() - 40}}):
+			db['teachers'].remove(i['_id'])
+
+		teachers = [i['user'] for i in db['teachers'].find({}, {'_id': False})]
+
+		socketio.emit('all', {
+			'teachers': teachers,
+		}, namespace='/study')
+
+		sleep(5)
