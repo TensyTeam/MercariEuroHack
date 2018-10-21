@@ -3,62 +3,11 @@
 
 <script type="text/javascript">
 
-var ABI = [{"constant":false,"inputs":[{"name":"is_ok","type":"bool"},{"name":"teacher","type":"address"}],"name":"student_end_lesson","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[],"name":"withdraw_expired","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"moderator","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"courses","outputs":[{"name":"student","type":"address"},{"name":"author","type":"address"},{"name":"blocked","type":"bool"},{"name":"price","type":"uint256"},{"name":"duration","type":"uint256"},{"name":"start","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[],"name":"withdraw","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"teacher","type":"address"},{"name":"teacher_is_right","type":"bool"},{"name":"i","type":"uint256"}],"name":"resolve_dispute","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"price","type":"uint256"},{"name":"student","type":"address"},{"name":"author","type":"address"},{"name":"duration","type":"uint256"}],"name":"teacher_ready_to_give_lesson","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"},{"name":"","type":"uint256"}],"name":"disputes","outputs":[{"name":"student","type":"address"},{"name":"author","type":"address"},{"name":"price","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"withdrawals","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"teacher","type":"address"}],"name":"student_start_lesson","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"teacher","type":"address"},{"indexed":true,"name":"end_time","type":"uint256"}],"name":"LessonStarted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"teacher","type":"address"},{"indexed":false,"name":"index","type":"uint256"}],"name":"DisputeMade","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"teacher","type":"address"},{"indexed":true,"name":"student","type":"address"},{"indexed":false,"name":"price","type":"uint256"},{"indexed":false,"name":"teacher_is_right","type":"bool"}],"name":"DisputeResolved","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"teacher","type":"address"}],"name":"LessonPrepared","type":"event"}];
-var contract = "0x1147099a085071aa34B0a44ee58BF3c989e5a072";
+teacher_ready_to_give_lesson(100000000000000000, `0x303220109baDA10a87A92Ef95cD229506561bbFD`, `0x4F069d2fe6D6B2257F486B0f5cb3013014BD48c7`, 200);
 
+// student_start_lesson(`0xa82EC4C9bbC297dB87C1e11269D71E54806b184E`, 100000000000000000);
 
-window.addEventListener('load',
-	function() {
-		web3 = window.web3;
-		// console.log(web3);
-
-		if (typeof web3 !== 'undefined') {
-			web3 = new Web3(web3.currentProvider);
-			window.web3 = new Web3(web3.currentProvider);
-
-			// console.log(web3.currentProvider);
-
-			if (web3.currentProvider.isMetaMask === true) {
-				teacher_ready_to_give_lesson();
-			} else {
-				$('#message').append('<div>No web3? Please use google chrome and metamask plugin to enter this Dapp!</div>');
-			}
-	}
-});
-
-function teacher_ready_to_give_lesson() {
-	token = web3.eth.contract(ABI).at(contract);
-	console.log(token);
-
-	account = web3.eth.accounts[0];
-	// $('#message').append('<div>' + account + '</div');
-	console.log(account);
-
-	// 0xa82EC4C9bbC297dB87C1e11269D71E54806b184E
-	token.teacher_ready_to_give_lesson.sendTransaction(100000000000000000, `0x303220109baDA10a87A92Ef95cD229506561bbFD`, `0x4F069d2fe6D6B2257F486B0f5cb3013014BD48c7`, 200, function (err, res) { 
-		console.log(res);
-	});
-}
-
-function student_start_lesson() {
-	token = web3.eth.contract(ABI).at(contract);
-	account = web3.eth.accounts[0];
-
-	console.log(account);
-
-	token.student_start_lesson.sendTransaction(`0xa82EC4C9bbC297dB87C1e11269D71E54806b184E`, {from: account, gas: 3000000, value: 100000000000000000}, function (err, res) { 
-		console.log(res);
-	});
-}
-
-function student_end_lesson() {
-	token = web3.eth.contract(ABI).at(contract);
-	account = web3.eth.accounts[0];
-
-	token.student_end_lesson.sendTransaction(true, `0xa82EC4C9bbC297dB87C1e11269D71E54806b184E`, function (err, res) { 
-		console.log(res);
-	});
-}
+// student_end_lesson(true, `0xa82EC4C9bbC297dB87C1e11269D71E54806b184E`);
 
 </script>
 

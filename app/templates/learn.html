@@ -7,34 +7,4 @@
 	{% for i in ladders %}<div class="col-md-4"><a href="/ladder/{{ i.id }}"><div style="background-image: url({{ preview('ladders', i.id) }}");"></div><p>{{ i.name }}</p></a></div>{% endfor %}
 </div>
 
-
-<style>
-h1 {
-	margin: 15px 0 12px 0;
-}
-
-/*
-.col-md-4 {
-	border: 1px dashed #a0acc4;
-	border-radius: 15px;
-}
-*/
-
-.col-md-4 div {
-	width: 100%;
-	height: 250px;
-
-	background: center no-repeat;
-	-moz-background-size: 100%;
-	-webkit-background-size: 100%;
-	-o-background-size: 100%;
-	background-size: 100%;
-}
-
-.col-md-4 a {
-	text-decoration: none;
-	color: #000;
-}
-</style>
-
 {% endblock %}
