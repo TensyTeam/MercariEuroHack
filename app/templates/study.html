@@ -22,20 +22,30 @@ $(document).ready(function() {
 		}
 	});
 
-	socket.on('accept', function(teacher) {
-		// delay
-		student_start_lesson(teacher, 100000000000000000);
-		window.location.href = '/space';
+	socket.on('accept', function(mes) {
+		console.log(mes);
+		if (mes['student'] == account) {
+			console.log(mes['teacher']);
+			$('.body').html('<button onclick="start(\'' + mes['teacher'] + '\')" type="button" class="btn btn-outline-success">Start</button>');
+			// delay
+		}
 	});
 
-	socket.on('cancel', function(teacher) {
-		$('#' + teacher).detach();
+	socket.on('cancel', function(mes) {
+		if (mes['student'] == account) {
+			$('#' + mes['teacher']).detach();
+		}
 	});
 });
 
 function request(teacher) {
 	socket.emit('request', {student: account, teacher: teacher});
 	$('#' + teacher).attr('class', 'btn btn-outline-warning');
+}
+
+function start(teacher) {
+	student_start_lesson(teacher, 100000000000000000);
+	window.location.href = '/space?teacher=' + teacher;
 }
 
 </script>

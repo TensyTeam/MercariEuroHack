@@ -25,6 +25,10 @@ $(document).ready(function() {
 function accept(student) {
 	teacher_ready_to_give_lesson(100000000000000000, student, `0x4F069d2fe6D6B2257F486B0f5cb3013014BD48c7`, 200);
 	socket.emit('accept', {teacher: account, student: student});
+
+	// console.log('!');
+	// console.log(trans);
+	// console.log(confirmEtherTransaction(rtans)); // getConfirmations(trans);
 }
 
 function cancel(student) {

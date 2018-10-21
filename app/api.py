@@ -249,6 +249,7 @@ def request_teacher(mes):
 
 @socketio.on('accept', namespace='/teach')
 def request_teacher(mes):
+	print(mes)
 	socketio.emit('accept', mes, namespace='/study')
 
 @socketio.on('cancel', namespace='/teach')
@@ -257,7 +258,7 @@ def request_teacher(mes):
 
 def background_thread():
 	while True:
-		for i in db['teachers'].find({'time': {'$lt': time() - 40}}):
+		for i in db['teachers'].find({'time': {'$lt': time() - 6}}):
 			db['teachers'].remove(i['_id'])
 
 		teachers = [i['user'] for i in db['teachers'].find({}, {'_id': False})]
