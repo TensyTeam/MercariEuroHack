@@ -32,10 +32,10 @@
 
 			<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 				<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-					<li class="nav-item{% if url == 'learn' %} active{% endif %}">
+					<li class="nav-item{% if 'learn' in url or 'ladder' in url or 'question' in url %} active{% endif %}">
 						<a href="/" class="nav-link" href="#">Learn</a>
 					</li>
-					<li class="nav-item{% if url == 'teach' %} active{% endif %}">
+					<li class="nav-item{% if 'teach' in url %} active{% endif %}">
 						<a href="/teach" class="nav-link" href="#">Teach</a>
 					</li>
 				</ul>

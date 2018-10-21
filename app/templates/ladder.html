@@ -3,7 +3,7 @@
 
 <h1>{{ ladder.name }} <span class="badge badge-secondary">#{{ ladder.id }}</span></h1>
 
-<img src="{{ preview('ladders', ladder.id) }}" alt="{{ ladder.name }}" title="{{ ladder.name }}" class="preview">
+<img src="{{ preview('ladders', ladder.id) }}" alt="{{ ladder.name }}" title="{{ ladder.name }}">
 
 <h3>{% for i in ladder.tags %}<span class="badge badge-secondary">{{ i }}</span>{% endfor %}</h3>
 

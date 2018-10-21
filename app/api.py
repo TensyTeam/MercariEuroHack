@@ -67,6 +67,86 @@ def process():
 
 			return dumps({'error': 0, 'ladder': ladder})
 
+# Получение степа
+		elif x['method'] == 'step.get':
+			mes = errors(x, (
+				('ladder', True, int),
+				('step', True, int),
+			))
+			if mes: return mes
+
+			filter_db = {
+				'_id': False,
+				'name': True,
+				'tags': True,
+				'steps.id': True,
+				'steps.cont': True,
+				'steps.options': True,
+				'steps.theory': True,
+				'steps.name': True,
+			}
+			ladder = db['ladders'].find_one({'id': x['ladder']}, filter_db)
+
+			# Неправильный ледер
+			if not ladder:
+				return dumps({'error': 6, 'message': 'Ladder does not exsist'})
+
+			try:
+				step_all = [j['id'] for j in ladder['steps']]
+			except:
+				step_all = []
+
+			# Неправильный степ
+			if x['step'] not in step_all:
+				return dumps({'error': 7, 'message': 'Step does not exsist'})
+
+			step_num = step_all.index(x['step'])
+
+			res = {
+				'error': 0,
+				'step': ladder['steps'][step_num],
+				'num': step_num,
+				'name': ladder['name'],
+				'tags': ladder['tags'],
+			}
+
+			return dumps(res)
+
+# Проверка ответов
+		elif x['method'] == 'step.check':
+			mes = errors(x, (
+				('ladder', True, int),
+				('step', True, int),
+				('answers', True, list, int),
+			))
+			if mes: return mes
+
+			filter_db = {'_id': False, 'steps.id': True, 'steps.answers': True}
+			ladder = db['ladders'].find_one({'id': x['ladder']}, filter_db)
+
+			# Неправильный ледер
+			if not ladder:
+				return dumps({'error': 6, 'message': 'Ladder does not exsist'})
+
+			try:
+				step_all = [j['id'] for j in ladder['steps']]
+			except:
+				step_all = []
+
+			# Неправильный степ
+			if x['step'] not in step_all:
+				return dumps({'error': 7, 'message': 'Step does not exsist'})
+
+			step_num = step_all.index(x['step'])
+
+			suc = set(x['answers']) == set(ladder['steps'][step_num]['answers'])
+
+			if suc:
+				# Следующий степ
+				step_next = ladder['steps'][step_num+1]['id'] if step_num < len(ladder['steps'])-1 else -1
+
+			return dumps({'error': 0, 'correct': suc, 'step': step_next if suc else x['step']})
+
 		else:
 			return dumps({'error': 2, 'message': 'Wrong method'})
 

@@ -1,0 +1,19 @@
+{% extends "main.html" %}
+{% block cont %}
+
+<h1>{{ step.name }} <span class="badge badge-secondary">#{{ step.id }}</span></h1>
+
+{{ step.cont }}<br>
+
+<form action="/sys_step_check/{{ ladder_id }}/{{ step.id }}" method="post" enctype="multipart/form-data">
+{% for i, el in enumerate(step.options) %}
+	<div class="custom-control custom-checkbox">
+		<input type="checkbox" class="custom-control-input" id="customCheck{{ i+1 }}" name="{{ i+1 }}">
+		<label class="custom-control-label" for="customCheck{{ i+1 }}">{{ el }}</label>
+	</div>
+{% endfor %}
+
+	<button type="submit" class="btn btn-outline-success">Answer</button>
+</form>
+
+{% endblock %}
