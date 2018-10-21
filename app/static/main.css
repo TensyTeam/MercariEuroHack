@@ -1,6 +1,24 @@
-.navbar img {margin-bottom: 2px;}
+.body {
+	min-height: calc(100vh - 300px);
+}
 
-#message {color: rgba(255,255,255,.5);}
+.navbar img {
+	margin-bottom: 2px;
+}
+
+#message {
+	color: rgba(255,255,255,.5);
+}
+
+.footer-classic, .footer-classic a {
+	color: rgba(255,255,255,.5);
+}
+
+.footer-classic {
+	padding-top: 15px;
+}
+
+/* Learn */
 
 h1 {
 	margin: 15px 0 12px 0;
@@ -24,7 +42,26 @@ h1 {
 	background-size: 100%;
 }
 
-.col-md-4 a {
+.body a {
 	text-decoration: none;
 	color: #000;
+}
+
+/* Ladder */
+
+.preview {
+	/*width: 70%;*/
+	height: 500px;
+}
+
+h3 {
+	margin: 10px 0 15px 0;
+}
+
+h3 .badge {
+	margin: 5px;
+}
+
+button {
+	margin: 25px 0 20px 0;
 }

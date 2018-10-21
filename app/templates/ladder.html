@@ -1,0 +1,14 @@
+{% extends "main.html" %}
+{% block cont %}
+
+<h1>{{ ladder.name }} <span class="badge badge-secondary">#{{ ladder.id }}</span></h1>
+
+<img src="{{ preview('ladders', ladder.id) }}" alt="{{ ladder.name }}" title="{{ ladder.name }}" class="preview">
+
+<h3>{% for i in ladder.tags %}<span class="badge badge-secondary">{{ i }}</span>{% endfor %}</h3>
+
+{{ ladder.description }}<br>
+
+<button onclick="window.location.href='/ladder/{{ ladder.id }}/question/{{ ladder.steps[0].id }}/';" type="button" class="btn btn-outline-success">Start</button>
+
+{% endblock %}

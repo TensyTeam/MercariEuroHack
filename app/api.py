@@ -46,12 +46,20 @@ def process():
 # Получение ледера
 		elif x['method'] == 'ladders.get':
 			mes = errors(x, (
-				('id', True, int),
+				('ladder', True, int),
 			))
 			if mes: return mes
 
-			filter_db = {'_id': False, 'name': True, 'steps.id': True}
-			ladder = db['ladders'].find_one({'id': x['id']}, filter_db)
+			filter_db = {
+				'_id': False,
+				'id': True,
+				'name': True,
+				'steps.id': True,
+				'description': True,
+				'tags': True,
+			}
+
+			ladder = db['ladders'].find_one({'id': x['ladder']}, filter_db)
 
 			# Неправильный ледер
 			if not ladder:
